@@ -85,25 +85,34 @@ function startCursorChaos() {
     }
   }
 
-  function updatePositions(e) {
-    clones.forEach((c, i) => {
-      const delay = i * 15;
-      setTimeout(() => {
-        const offsetX = (Math.random() - 0.5) * 30;
-        const offsetY = (Math.random() - 0.5) * 30;
-        c.style.left = `${e.clientX + offsetX}px`;
-        c.style.top = `${e.clientY + offsetY}px`;
-      }, delay);
-    });
+  let mouseX = 0;
+  let mouseY = 0;
+  let handle;
+
+  function updateMouse(e) {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
   }
 
-  document.addEventListener("mousemove", updatePositions);
+  function animate() {
+    clones.forEach((c) => {
+      const offsetX = (Math.random() - 0.5) * 30;
+      const offsetY = (Math.random() - 0.5) * 30;
+      c.style.transform = `translate3d(${mouseX + offsetX}px, ${mouseY + offsetY}px, 0)`;
+    });
+    handle = requestAnimationFrame(animate);
+  }
+
+  document.addEventListener("mousemove", updateMouse);
   spawnClones(count);
+  handle = requestAnimationFrame(animate);
 
   const interval = setInterval(() => {
     count *= 2;
     if (count > max) {
       clearInterval(interval);
+      cancelAnimationFrame(handle);
+      document.removeEventListener("mousemove", updateMouse);
       return;
     }
     spawnClones(count);
@@ -120,7 +129,7 @@ style.innerHTML = `
     width: 20px;
     height: 20px;
     opacity: 0.8;
-    transition: left 0.1s ease-out, top 0.1s ease-out;
+    transition: transform 0.1s ease-out;
   }
 `;
 document.head.appendChild(style);
