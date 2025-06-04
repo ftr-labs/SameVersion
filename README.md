@@ -16,3 +16,8 @@ Simply open `index.html` in your browser. No build step is required; all assets 
 * **versions.js** – Displays the fake version label.
 
 Opening the page loads these scripts to produce a silly, constantly mutating site.
+
+On desktop you can reveal a hidden message by hovering in the bottom left
+corner for a couple of seconds. On touch devices you can press and hold in
+that corner. The page disables text selection there so the overlay appears
+instead of the usual highlight menu.
