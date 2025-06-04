@@ -123,15 +123,18 @@
       position: fixed;
       bottom: 0;
       left: 0;
-      width: 100px;
-      height: 100px;
+      width: 150px;
+      height: 150px;
       z-index: 100;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: none;
     }
 
     #secret-message {
       position: fixed;
-      bottom: 70px;
-      left: 20px;
+      bottom: 160px;
+      left: 30px;
       background: rgba(30, 0, 0, 0.9);
       color: #f88;
       font-size: 0.9rem;
@@ -258,19 +261,26 @@
       const overlay = document.getElementById("overlay");
 
       let hoverTimeout;
-      corner.addEventListener("mouseenter", () => {
+      const startReveal = (e) => {
+        if (e) e.preventDefault();
         hoverTimeout = setTimeout(() => {
           overlay.style.display = "block";
           message.innerText = pickRandom(secretLines);
           message.style.display = "block";
         }, 1800);
-      });
+      };
 
-      corner.addEventListener("mouseleave", () => {
+      const endReveal = () => {
         clearTimeout(hoverTimeout);
         message.style.display = "none";
         overlay.style.display = "none";
-      });
+      };
+
+      corner.addEventListener("mouseenter", startReveal);
+      corner.addEventListener("mouseleave", endReveal);
+      corner.addEventListener("touchstart", startReveal, { passive: false });
+      corner.addEventListener("touchend", endReveal);
+      corner.addEventListener("touchcancel", endReveal);
 
       setTimeout(() => {
         const currentYear = new Date().getFullYear();
