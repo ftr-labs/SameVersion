@@ -71,12 +71,19 @@ function startCursorChaos() {
     </svg>
   `;
 
-  let count = 1;
   const max = 64;
+  let count = 1;
   const clones = [];
+  let rafId = null;
+  let interval = null;
+  let inactivityTimeout = null;
+  const maxDuration = 10000;
+  const originalCursor = document.body.style.cursor;
 
   function spawnClones(n) {
-    for (let i = 0; i < n; i++) {
+    const remaining = max - clones.length;
+    const toCreate = Math.min(n, remaining);
+    for (let i = 0; i < toCreate; i++) {
       const c = document.createElement("div");
       c.className = "cursor-copy";
       c.innerHTML = cursorSVG;
@@ -85,7 +92,7 @@ function startCursorChaos() {
     }
   }
 
-  function updatePositions(e) {
+  function renderPositions(e) {
     clones.forEach((c, i) => {
       const delay = i * 15;
       setTimeout(() => {
@@ -97,16 +104,38 @@ function startCursorChaos() {
     });
   }
 
+  function updatePositions(e) {
+    cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(() => renderPositions(e));
+    resetInactivity();
+  }
+
+  function resetInactivity() {
+    clearTimeout(inactivityTimeout);
+    inactivityTimeout = setTimeout(cleanup, maxDuration);
+  }
+
+  function cleanup() {
+    clearInterval(interval);
+    document.removeEventListener("mousemove", updatePositions);
+    cancelAnimationFrame(rafId);
+    clearTimeout(inactivityTimeout);
+    clones.forEach(c => c.remove());
+    clones.length = 0;
+    document.body.style.cursor = originalCursor;
+  }
+
+  document.body.style.cursor = "none";
   document.addEventListener("mousemove", updatePositions);
   spawnClones(count);
+  resetInactivity();
 
-  const interval = setInterval(() => {
+  interval = setInterval(() => {
     count *= 2;
-    if (count > max) {
-      clearInterval(interval);
-      return;
-    }
     spawnClones(count);
+    if (clones.length >= max) {
+      clearInterval(interval);
+    }
   }, 500);
 }
 
