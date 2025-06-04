@@ -4,9 +4,6 @@
   <meta charset="UTF-8">
   <title>Same Version</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-
-
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&family=IBM+Plex+Sans&family=Space+Grotesk&family=EB+Garamond&family=Manrope&family=Playfair+Display&family=Fira+Sans&family=Spline+Sans+Mono&display=swap" rel="stylesheet">
 
   <style>
@@ -68,7 +65,6 @@
       margin-bottom: 1.5rem;
     }
 
-    /* Mutation Styles */
     .tall-box { height: 500px; display: flex; flex-direction: column; justify-content: space-evenly; }
     .pill-shape { border-radius: 30px; }
     .wide-box { width: 90vw; }
@@ -90,7 +86,6 @@
     .low-opacity { opacity: 0.85; }
     .distorted { transform: scale(1.03) rotate(0.3deg); }
 
-    /* Visual Effects */
     .glitch {
       position: relative;
       color: #ff003c;
@@ -118,7 +113,6 @@
       100% { opacity: 1; transform: none; color: inherit; filter: none; }
     }
 
-    /* Secret Corner */
     #secret-corner {
       position: fixed;
       bottom: 0;
@@ -177,7 +171,6 @@
   </style>
 </head>
 <body>
-
   <div id="overlay"></div>
 
   <script>
@@ -196,7 +189,6 @@
     }
   </script>
 
-  <!-- Scripts -->
   <script src="phrases.js"></script>
   <script src="colors.js"></script>
   <script src="versions.js"></script>
@@ -216,13 +208,16 @@
       const chosenVersion = pickRandom(versionLabels);
       document.getElementById("version").innerText = chosenVersion;
 
+      const pool = genericPhrases.concat(
+        isMobileDevice() ? phonePhrases : pcPhrases
+      );
       const shown = JSON.parse(sessionStorage.getItem("shownPhrases") || "[]");
-      const unseen = phrases.filter(p => !shown.includes(p));
+      const unseen = pool.filter(p => !shown.includes(p));
       let chosenPhrase;
 
       if (unseen.length === 0) {
         sessionStorage.removeItem("shownPhrases");
-        chosenPhrase = pickRandom(phrases);
+        chosenPhrase = pickRandom(pool);
         sessionStorage.setItem("shownPhrases", JSON.stringify([chosenPhrase]));
       } else {
         chosenPhrase = pickRandom(unseen);
@@ -261,6 +256,7 @@
       const overlay = document.getElementById("overlay");
 
       let hoverTimeout;
+
       const startReveal = (e) => {
         if (e) e.preventDefault();
         hoverTimeout = setTimeout(() => {
