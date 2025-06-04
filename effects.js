@@ -46,7 +46,7 @@ function glitchText() {
 
 // === EFFECT 3: Secret Audio on Version Click ===
 function bindSecretAudio() {
-  const secretAudioClips = ["audio/fart-then-moan-mp3-by-mango.mp3",];
+  const secretAudioClips = ["audio/fart-then-moan-mp3-by-mango.mp3"];
 
   const versionEl = document.getElementById("version");
   if (!versionEl) return;
@@ -79,18 +79,6 @@ function startCursorChaos() {
   let inactivityTimeout = null;
   const maxDuration = 10000;
   const originalCursor = document.body.style.cursor;
-
-  function spawnClones(n) {
-    const remaining = max - clones.length;
-    const toCreate = Math.min(n, remaining);
-    for (let i = 0; i < toCreate; i++) {
-      const c = document.createElement("div");
-      c.className = "cursor-copy";
-      c.innerHTML = cursorSVG;
-      document.body.appendChild(c);
-      clones.push(c);
-    }
-  }
 
   function renderPositions(e) {
     clones.forEach((c, i) => {
@@ -125,6 +113,18 @@ function startCursorChaos() {
     document.body.style.cursor = originalCursor;
   }
 
+  function spawnClones(n) {
+    const remaining = max - clones.length;
+    const toCreate = Math.min(n, remaining);
+    for (let i = 0; i < toCreate; i++) {
+      const c = document.createElement("div");
+      c.className = "cursor-copy";
+      c.innerHTML = cursorSVG;
+      document.body.appendChild(c);
+      clones.push(c);
+    }
+  }
+
   document.body.style.cursor = "none";
   document.addEventListener("mousemove", updatePositions);
   spawnClones(count);
@@ -149,7 +149,7 @@ style.innerHTML = `
     width: 20px;
     height: 20px;
     opacity: 0.8;
-    transition: left 0.1s ease-out, top 0.1s ease-out;
+    transition: transform 0.1s ease-out;
   }
 `;
 document.head.appendChild(style);
