@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Same Version</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&family=IBM+Plex+Sans&family=Space+Grotesk&family=EB+Garamond&family=Manrope&family=Playfair+Display&family=Fira+Sans&family=Spline+Sans+Mono&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 2rem;
+      transition: all 0.6s ease-in-out;
+    }
+
+    .content {
+      text-align: center;
+      border: 2px dashed #aaa;
+      padding: 2rem;
+      background-color: white;
+      border-radius: 8px;
+      transition: all 0.4s ease;
+    }
+
+    .content.circle-box {
+      max-width: none;
+      width: 300px;
+      height: 300px;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      justify-content: center;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .circle-box p, .circle-box h1 {
+      text-align: center;
+      width: 100%;
+    }
+
+    h1 {
+      margin: 0;
+      padding: 0;
+      font-size: 2.2rem;
+    }
+
+    .subtitle-cert {
+      margin-top: 0.1rem;
+      margin-bottom: 2rem;
+      font-size: 0.9rem;
+      color: #888;
+      font-style: italic;
+    }
+
+    #version {
+      font-size: 0.9rem;
+      color: #666;
+      margin-top: -0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Mutation Styles */
+    .tall-box { height: 500px; display: flex; flex-direction: column; justify-content: space-evenly; }
+    .pill-shape { border-radius: 30px; }
+    .wide-box { width: 90vw; }
+    .reverse-order { display: flex; flex-direction: column-reverse; }
+    .text-left { text-align: left; }
+    .text-right { text-align: right; }
+    .align-left { align-self: flex-start; }
+    .align-right { align-self: flex-end; }
+    .align-bottom { margin-top: auto; margin-bottom: 5vh; }
+    .slight-tilt { transform: rotate(-1deg); }
+    .glow-border { box-shadow: 0 0 8px rgba(0,0,0,0.2); border: 1px solid #ccc; }
+    .no-border { border: none; }
+    .double-border { border: 4px double #999; }
+    .solid-border { border: 2px solid #444; }
+    .sharp-corner { border-radius: 0; }
+    .split-layout h1 { text-align: left; }
+    .split-layout #version { text-align: center; }
+    .split-layout #phrase { text-align: right; }
+    .low-opacity { opacity: 0.85; }
+    .distorted { transform: scale(1.03) rotate(0.3deg); }
+
+    /* Visual Effects */
+    .glitch {
+      position: relative;
+      color: #ff003c;
+      animation: glitchSkew 0.8s steps(2, end) infinite;
+    }
+
+    @keyframes glitchSkew {
+      0% { transform: skew(0deg, 0deg); opacity: 1; }
+      10% { transform: skew(-10deg, 0deg); opacity: 0.75; }
+      20% { transform: skew(5deg, 0deg); opacity: 0.9; }
+      30% { transform: skew(-3deg, 1deg); opacity: 0.6; }
+      50% { transform: skew(2deg, -1deg); opacity: 1; }
+      100% { transform: skew(0deg, 0deg); opacity: 1; }
+    }
+
+    .flicker {
+      animation: flickerAnim 1.2s ease-in-out;
+    }
+
+    @keyframes flickerAnim {
+      0%   { opacity: 1; transform: none; color: inherit; filter: none; }
+      25%  { opacity: 0.1; transform: scale(1.1) skewX(5deg); color: #b30000; filter: blur(1px); }
+      50%  { opacity: 0.3; transform: scale(0.95) skewX(-3deg); filter: blur(0.5px); }
+      75%  { opacity: 0.6; transform: scale(1.05); color: #900000; }
+      100% { opacity: 1; transform: none; color: inherit; filter: none; }
+    }
+
+    /* Secret Corner */
+    #secret-corner {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100px;
+      height: 100px;
+      z-index: 100;
+    }
+
+    #secret-message {
+      position: fixed;
+      bottom: 70px;
+      left: 20px;
+      background: rgba(30, 0, 0, 0.9);
+      color: #f88;
+      font-size: 0.9rem;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      max-width: 250px;
+      display: none;
+      z-index: 999;
+      font-family: 'JetBrains Mono', monospace;
+      pointer-events: none;
+      box-shadow: 0 -5px 25px rgba(255, 0, 0, 0.25);
+    }
+
+    #overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.9);
+      z-index: 90;
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .content {
+        width: 95vw;
+        padding: 1rem;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      .subtitle-cert, #version, #phrase {
+        font-size: 0.8rem;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div id="overlay"></div>
+
+  <script>
+    const isBlankVersion = Math.random() < 1 / 15;
+    if (!isBlankVersion) {
+      document.body.insertAdjacentHTML("beforeend", `
+        <div class="content" id="box">
+          <h1>Same Version</h1>
+          <p class="subtitle-cert">Certified Identical Since <span id="cert-year">1999</span></p>
+          <p id="version">Loading version...</p>
+          <p id="phrase">Loading phrase...</p>
+        </div>
+        <div id="secret-corner"></div>
+        <div id="secret-message">...</div>
+      `);
+    }
+  </script>
+
+  <!-- Scripts -->
+  <script src="phrases.js"></script>
+  <script src="colors.js"></script>
+  <script src="versions.js"></script>
+  <script src="mutations.js"></script>
+  <script src="fonts.js"></script>
+  <script src="effects.js"></script>
+
+  <script>
+    function pickRandom(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    const chosenColor = pickRandom(backgroundColors);
+    document.body.style.backgroundColor = chosenColor;
+
+    if (!isBlankVersion) {
+      const chosenVersion = pickRandom(versionLabels);
+      document.getElementById("version").innerText = chosenVersion;
+
+      const shown = JSON.parse(sessionStorage.getItem("shownPhrases") || "[]");
+      const unseen = phrases.filter(p => !shown.includes(p));
+      let chosenPhrase;
+
+      if (unseen.length === 0) {
+        sessionStorage.removeItem("shownPhrases");
+        chosenPhrase = pickRandom(phrases);
+        sessionStorage.setItem("shownPhrases", JSON.stringify([chosenPhrase]));
+      } else {
+        chosenPhrase = pickRandom(unseen);
+        shown.push(chosenPhrase);
+        sessionStorage.setItem("shownPhrases", JSON.stringify(shown));
+      }
+
+      document.getElementById("phrase").innerText = chosenPhrase;
+
+      const box = document.getElementById("box");
+      applyRandomMutation(box);
+
+      const chosenFont = pickRandom(fontCombos);
+      ["h1", "#version", "#phrase"].forEach(sel => {
+        const el = document.querySelector(sel);
+        el.style.fontFamily = chosenFont.family;
+        el.style.fontWeight = chosenFont.weight;
+        el.style.letterSpacing = chosenFont.spacing;
+      });
+
+      runEffects();
+
+      setTimeout(() => {
+        alert("What are you still waiting for?");
+      }, 20000);
+
+      const secretLines = [
+        "You’re not special.",
+        "You loved her, but she did not.",
+        "The answer is 42.",
+        "Let’s talk about those daddy issues."
+      ];
+
+      const corner = document.getElementById("secret-corner");
+      const message = document.getElementById("secret-message");
+      const overlay = document.getElementById("overlay");
+
+      let hoverTimeout;
+      corner.addEventListener("mouseenter", () => {
+        hoverTimeout = setTimeout(() => {
+          overlay.style.display = "block";
+          message.innerText = pickRandom(secretLines);
+          message.style.display = "block";
+        }, 1800);
+      });
+
+      corner.addEventListener("mouseleave", () => {
+        clearTimeout(hoverTimeout);
+        message.style.display = "none";
+        overlay.style.display = "none";
+      });
+
+      setTimeout(() => {
+        const currentYear = new Date().getFullYear();
+        document.getElementById("cert-year").innerText = currentYear + 1;
+      }, 4000);
+    } else {
+      console.log("🕳️ Blank version triggered.");
+    }
+  </script>
+</body>
+</html>
