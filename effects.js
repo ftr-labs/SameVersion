@@ -46,7 +46,7 @@ function glitchText() {
 
 // === EFFECT 3: Secret Audio on Version Click ===
 function bindSecretAudio() {
-  const secretAudioClips = ["audio/fart-then-moan-mp3-by-mango.mp3",];
+  const secretAudioClips = ["audio/fart-then-moan-mp3-by-mango.mp3"];
 
   const versionEl = document.getElementById("version");
   if (!versionEl) return;
@@ -71,12 +71,52 @@ function startCursorChaos() {
     </svg>
   `;
 
-  let count = 1;
   const max = 64;
+  let count = 1;
   const clones = [];
+  let rafId = null;
+  let interval = null;
+  let inactivityTimeout = null;
+  const maxDuration = 10000;
+  const originalCursor = document.body.style.cursor;
+
+  function renderPositions(e) {
+    clones.forEach((c, i) => {
+      const delay = i * 15;
+      setTimeout(() => {
+        const offsetX = (Math.random() - 0.5) * 30;
+        const offsetY = (Math.random() - 0.5) * 30;
+        c.style.left = `${e.clientX + offsetX}px`;
+        c.style.top = `${e.clientY + offsetY}px`;
+      }, delay);
+    });
+  }
+
+  function updatePositions(e) {
+    cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(() => renderPositions(e));
+    resetInactivity();
+  }
+
+  function resetInactivity() {
+    clearTimeout(inactivityTimeout);
+    inactivityTimeout = setTimeout(cleanup, maxDuration);
+  }
+
+  function cleanup() {
+    clearInterval(interval);
+    document.removeEventListener("mousemove", updatePositions);
+    cancelAnimationFrame(rafId);
+    clearTimeout(inactivityTimeout);
+    clones.forEach(c => c.remove());
+    clones.length = 0;
+    document.body.style.cursor = originalCursor;
+  }
 
   function spawnClones(n) {
-    for (let i = 0; i < n; i++) {
+    const remaining = max - clones.length;
+    const toCreate = Math.min(n, remaining);
+    for (let i = 0; i < toCreate; i++) {
       const c = document.createElement("div");
       c.className = "cursor-copy";
       c.innerHTML = cursorSVG;
@@ -85,37 +125,17 @@ function startCursorChaos() {
     }
   }
 
-  let mouseX = 0;
-  let mouseY = 0;
-  let handle;
-
-  function updateMouse(e) {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-  }
-
-  function animate() {
-    clones.forEach((c) => {
-      const offsetX = (Math.random() - 0.5) * 30;
-      const offsetY = (Math.random() - 0.5) * 30;
-      c.style.transform = `translate3d(${mouseX + offsetX}px, ${mouseY + offsetY}px, 0)`;
-    });
-    handle = requestAnimationFrame(animate);
-  }
-
-  document.addEventListener("mousemove", updateMouse);
+  document.body.style.cursor = "none";
+  document.addEventListener("mousemove", updatePositions);
   spawnClones(count);
-  handle = requestAnimationFrame(animate);
+  resetInactivity();
 
-  const interval = setInterval(() => {
+  interval = setInterval(() => {
     count *= 2;
-    if (count > max) {
-      clearInterval(interval);
-      cancelAnimationFrame(handle);
-      document.removeEventListener("mousemove", updateMouse);
-      return;
-    }
     spawnClones(count);
+    if (clones.length >= max) {
+      clearInterval(interval);
+    }
   }, 500);
 }
 
