@@ -14,5 +14,6 @@ Simply open `index.html` in your browser. No build step is required; all assets 
 * **fonts.js** – Randomizes fonts.
 * **phrases.js** – Supplies on‑screen phrases.
 * **versions.js** – Displays the fake version label.
+* **audio.js** – Contains audio clip references.
 
 Opening the page loads these scripts to produce a silly, constantly mutating site.
