@@ -23,8 +23,8 @@ const backgroundColors = [
   "#2e3440", // nordic dusk
   "#3b3b3b", // soft charcoal
   "#1f1f1f", // deep matte black
-  "#1a237e", // dark indigo
-  "#1b5e20", // deep forest
   "#4e342e", // espresso brown
-  "#7f0000"  // dark crimson
+  "#5c5470", // dusty plum gray
+  "#2c2c54", // midnight blurple
+  "#3c2f2f"  // dark mocha
 ];
