@@ -63,8 +63,23 @@ function bindSecretAudio() {
   });
 }
 
+// === Mobile Detection Helper ===
+function isMobileDevice() {
+  return (
+    /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    ) ||
+    (navigator.maxTouchPoints && navigator.maxTouchPoints > 1) ||
+    window.matchMedia("(pointer: coarse)").matches
+  );
+}
+
 // === EFFECT 4: Real Cursor Clones (Exponential Chaos) ===
 function startCursorChaos() {
+  if (isMobileDevice()) {
+    console.log("Skipping cursor chaos on mobile.");
+    return;
+  }
   const cursorSVG = `
     <svg viewBox="0 0 24 24" width="20" height="20" fill="white" xmlns="http://www.w3.org/2000/svg">
       <path d="M3 2L20 12L13 13L14 20L3 2Z" stroke="black" stroke-width="1"/>
