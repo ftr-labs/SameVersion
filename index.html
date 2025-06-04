@@ -258,19 +258,25 @@
       const overlay = document.getElementById("overlay");
 
       let hoverTimeout;
-      corner.addEventListener("mouseenter", () => {
+      const startReveal = () => {
         hoverTimeout = setTimeout(() => {
           overlay.style.display = "block";
           message.innerText = pickRandom(secretLines);
           message.style.display = "block";
         }, 1800);
-      });
+      };
 
-      corner.addEventListener("mouseleave", () => {
+      const endReveal = () => {
         clearTimeout(hoverTimeout);
         message.style.display = "none";
         overlay.style.display = "none";
-      });
+      };
+
+      corner.addEventListener("mouseenter", startReveal);
+      corner.addEventListener("mouseleave", endReveal);
+      corner.addEventListener("touchstart", startReveal);
+      corner.addEventListener("touchend", endReveal);
+      corner.addEventListener("touchcancel", endReveal);
 
       setTimeout(() => {
         const currentYear = new Date().getFullYear();
