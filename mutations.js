@@ -18,11 +18,12 @@ const formatMutations = [
 function applyRandomMutation(element) {
   const chance = Math.random();
   if (chance <= 0.75) {
-    const chosen = formatMutations[Math.floor(Math.random() * formatMutations.length)];
+    // clone so we don't mutate the global list
+    const chosen = [...formatMutations[Math.floor(Math.random() * formatMutations.length)]];
 
     // Boosted condition: if combo is 'no-border' + 'pill-shape', make it a circle
     const isCircle = chosen.includes("no-border") && chosen.includes("pill-shape");
-    if (isCircle) {
+    if (isCircle && !chosen.includes("circle-box")) {
       chosen.push("circle-box");
     }
 
