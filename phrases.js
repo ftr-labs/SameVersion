@@ -1,4 +1,4 @@
-const phrases = [
+const genericPhrases = [
   "This version was compiled at 3:17AM GMT. Nobody authorized it.",
   "A fruit fly was the first living thing in space. It didn’t make it back.",
   "Are you sure you're alone right now?",
@@ -8,7 +8,6 @@ const phrases = [
   "In this version, the laws of physics were slightly updated.",
   "We buried the original site under 7 layers of concrete.",
   "Your IP address smells like burnt toast.",
-  "In a parallel tab, you’re making better decisions.",
   "Rats laugh when tickled. So do some developers.",
   "No one born on a Tuesday has ever completed this site.",
   "You’ve been here before, in a different skin.",
@@ -23,41 +22,30 @@ const phrases = [
   "The last phrase you saw was a lie.",
   "This version has a 3% chance of spontaneous deletion.",
   "Mid-July is statistically the worst time to make decisions.",
-  "The favicon blinks when you do.",
-  "Your mouse has been idle for 8 seconds. Why?",
   "They never fixed the leak under the footer.",
-  "In 2013, someone hid a confession in the site's code. We left it there.",
-  "Is your screen supposed to be doing that?",
   "A turtle once broke into the Pentagon. Long story.",
   "We counted your visits. The number isn't prime.",
   "Dogs tilt their heads because they're accessing other timelines.",
   "12/12/12 — everything reset.",
-  "Do not refresh unless you want to meet your other self.",
   "This message is only visible to users who’ve been compromised.",
   "Unplugging won't stop it now.",
   "Your reflection just blinked. You didn't.",
-  "They buried something in the CSS.",
   "A banana is technically a berry. But you knew that, didn’t you?",
   "This isn't your device anymore.",
   "You laughed at a joke yesterday that no one told.",
   "We tested 187 versions before this. All failed.",
   "It’s rude to stare.",
   "This sentence was written by someone who doesn’t exist.",
-  "Beneath this page lies another version. It’s not stable.",
   "There’s a 1 in 43 chance the next phrase will be true.",
   "Why are your hands cold?",
-  "Every tab you close opens one more.",
   "You were supposed to be here earlier.",
-  "Every time you scroll, someone forgets your name.",
   "We’re not allowed to show you the real homepage.",
   "Look away. Quickly.",
   "You are now synced with version 6.66.",
   "Don’t check your reflection just yet.",
-  "This page is best viewed through a cracked lens.",
   "A pigeon can remember human faces. Some of them are angry.",
   "This message replaces something you weren’t supposed to see.",
   "You’ll forget this phrase in 17 seconds.",
-  "The next click may change your timezone.",
   "Don’t trust any font that’s too confident.",
   "The phrase was redacted. This is its ghost.",
   "There’s a backup of you somewhere. It’s… slightly off.",
@@ -69,7 +57,6 @@ const phrases = [
   "This site has been archived since before you were born.",
   "You just missed it. Again.",
   "Something in this sentence doesn’t want to be read.",
-  "Refresh if you dare.",
   "We buried the safe phrase 40 lines below.",
   "Do you think you’re the only one reading this?",
   "At least 3 of these phrases are true. Probably.",
@@ -77,3 +64,39 @@ const phrases = [
   "The timestamp is wrong. You're early.",
   "This isn’t where the trail ends."
 ];
+
+const pcPhrases = [
+  "In a parallel tab, you’re making better decisions.",
+  "Your mouse has been idle for 8 seconds. Why?",
+  "Is your screen supposed to be doing that?",
+  "Do not refresh unless you want to meet your other self.",
+  "They buried something in the CSS.",
+  "Every tab you close opens one more.",
+  "Every time you scroll, someone forgets your name.",
+  "This page is best viewed through a cracked lens.",
+  "The next click may change your timezone.",
+  "Refresh if you dare.",
+  "The favicon blinks when you do.",
+  "Beneath this page lies another version. It’s not stable.",
+  "In 2013, someone hid a confession in the site's code. We left it there."
+];
+
+const phonePhrases = [
+  "Your battery is draining faster than usual.",
+  "Someone else is touching your screen right now.",
+  "Swipe left to reveal nothing.",
+  "Does your pocket feel heavier?",
+  "Your ringtone just played in another timeline.",
+  "This page knows your fingerprint.",
+  "Tilt your phone gently, it’s listening.",
+  "Your last selfie moved a little.",
+  "Low signal, high paranoia.",
+  "Your phone case just sighed.",
+  "Double-tap to disbelieve.",
+  "Don’t drop me again, I’m fragile.",
+  "Your screen time report is judging you."
+];
+
+// complete set for reference
+const phrases = genericPhrases.concat(pcPhrases, phonePhrases);
+

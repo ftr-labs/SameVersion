@@ -213,13 +213,16 @@
       const chosenVersion = pickRandom(versionLabels);
       document.getElementById("version").innerText = chosenVersion;
 
+      const pool = genericPhrases.concat(
+        isMobileDevice() ? phonePhrases : pcPhrases
+      );
       const shown = JSON.parse(sessionStorage.getItem("shownPhrases") || "[]");
-      const unseen = phrases.filter(p => !shown.includes(p));
+      const unseen = pool.filter(p => !shown.includes(p));
       let chosenPhrase;
 
       if (unseen.length === 0) {
         sessionStorage.removeItem("shownPhrases");
-        chosenPhrase = pickRandom(phrases);
+        chosenPhrase = pickRandom(pool);
         sessionStorage.setItem("shownPhrases", JSON.stringify([chosenPhrase]));
       } else {
         chosenPhrase = pickRandom(unseen);
