@@ -117,8 +117,8 @@
       position: fixed;
       bottom: 0;
       left: 0;
-      width: 100px;
-      height: 100px;
+      width: 150px;
+      height: 150px;
       z-index: 100;
       user-select: none;
       -webkit-user-select: none;
@@ -127,8 +127,8 @@
 
     #secret-message {
       position: fixed;
-      bottom: 70px;
-      left: 20px;
+      bottom: 160px;
+      left: 30px;
       background: rgba(30, 0, 0, 0.9);
       color: #f88;
       font-size: 0.9rem;
@@ -255,9 +255,8 @@
       const message = document.getElementById("secret-message");
       const overlay = document.getElementById("overlay");
 
-      let hoverTimeout;
-
-      const startReveal = (e) => {
+        let hoverTimeout;
+        const startReveal = (e) => {
         if (e) e.preventDefault();
         hoverTimeout = setTimeout(() => {
           overlay.style.display = "block";
