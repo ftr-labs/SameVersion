@@ -46,7 +46,7 @@ function glitchText() {
 
 // === EFFECT 3: Secret Audio on Version Click ===
 function bindSecretAudio() {
-  const secretAudioClips = ["audio/fart-then-moan-mp3-by-mango.mp3"];
+  const secretAudioClips = ["audio/moan_E0F3ZJz.mp3"];
 
   const versionEl = document.getElementById("version");
   if (!versionEl) return;
